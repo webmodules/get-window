@@ -1,6 +1,6 @@
 {
   "name": "get-window",
-  "repo": "component/get-window",
+  "repo": "webmodules/get-window",
   "version": "0.0.1",
   "description": "Returns the `window` object from a DOM object",
   "keywords": [
@@ -16,6 +16,6 @@
     "index.js"
   ],
   "dependencies": {
-    "component/get-document": "0.1.0"
+    "webmodules/get-document": "0.1.0"
   }
 }
