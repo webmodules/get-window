@@ -1,6 +1,6 @@
 {
   "name": "get-window",
-  "version": "0.0.0",
+  "version": "0.0.1",
   "description": "Returns the `window` object from a DOM object",
   "keywords": [
     "dom",
