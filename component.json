@@ -1,0 +1,21 @@
+{
+  "name": "get-window",
+  "repo": "component/get-window",
+  "version": "0.1.0",
+  "description": "Returns the `window` object from a DOM object",
+  "keywords": [
+    "dom",
+    "window",
+    "node",
+    "range",
+    "element",
+    "browser"
+  ],
+  "main": "index.js",
+  "scripts": [
+    "index.js"
+  ],
+  "dependencies": {
+    "component/get-document": "0.1.0"
+  }
+}
