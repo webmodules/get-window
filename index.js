@@ -14,7 +14,7 @@ module.exports = getWindow;
 /**
  * Returns `true` if `w` is a Window object, or `false` otherwise.
  *
- * @param {?} w - Window object, maybe
+ * @param {Mixed} w - Window object, maybe
  * @return {Boolean}
  * @private
  */
@@ -24,9 +24,10 @@ function isWindow (w) {
 }
 
 /**
+ * Returns the associated `Window` object from the passed in `node`.
  *
- * @param {Mixed} node - DOM node, selection, or range in which to find the `document` object
- * @return {Document} the `window` object associated with `node`
+ * @param {Mixed} node - DOM node, selection, or range in which to find the `window` object
+ * @return {Window} the `window` object associated with `node`
  * @public
  */
 
