@@ -24,7 +24,9 @@ function isWindow (w) {
 }
 
 /**
- * Returns the associated `Window` object from the passed in `node`.
+ * Returns the `window` object associated with the given `node`, which may be
+ * a DOM element, the Window object, a Selection, a Range. Basically any DOM
+ * object that references the Window in some way, this function will find it.
  *
  * @param {Mixed} node - DOM node, selection, or range in which to find the `window` object
  * @return {Window} the `window` object associated with `node`
