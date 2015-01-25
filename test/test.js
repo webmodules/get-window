@@ -34,27 +34,33 @@ describe('get-window', function () {
     assert(win === window);
   });
 
-  it('should work with a DOM Range instance', function () {
-    var win = getWindow(document.createRange());
-    assert(win === window);
-  });
+  // skip on IE <= 8
+  if ('function' === typeof document.createRange) {
+    it('should work with a DOM Range instance', function () {
+      var win = getWindow(document.createRange());
+      assert(win === window);
+    });
+  }
 
-  it('should work with a DOM Selection instance', function () {
-    var sel = window.getSelection();
+  // skip on IE <= 8
+  if ('function' === typeof window.getSelection) {
+    it('should work with a DOM Selection instance', function () {
+      var sel = window.getSelection();
 
-    // NOTE: a Selection needs to have some kind of selection on it
-    // (i.e. not `type: "None"`) in order for a Document to be found
-    var range = document.createRange();
-    range.selectNode(document.body);
-    sel.removeAllRanges();
-    sel.addRange(range);
+      // NOTE: a Selection needs to have some kind of selection on it
+      // (i.e. not `type: "None"`) in order for a Document to be found
+      var range = document.createRange();
+      range.selectNode(document.body);
+      sel.removeAllRanges();
+      sel.addRange(range);
 
-    var win = getWindow(sel);
-    assert(win === window);
+      var win = getWindow(sel);
+      assert(win === window);
 
-    // clean up
-    sel.removeAllRanges();
-  });
+      // clean up
+      sel.removeAllRanges();
+    });
+  }
 
   it('should work with the child node of an IFRAME element', function () {
     var iframe = document.createElement('iframe');
