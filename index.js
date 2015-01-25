@@ -11,6 +11,9 @@ var getDocument = require('get-document');
 
 module.exports = getWindow;
 
+// old-IE fallback logic: http://stackoverflow.com/a/10260692
+var needsIEFallback = !!document.attachEvent && window !== document.parentWindow;
+
 /**
  * Returns `true` if `w` is a Window object, or `false` otherwise.
  *
@@ -38,7 +41,20 @@ function getWindow(node) {
     return node;
   }
 
-  // TODO: add old-IE fallback logic: http://stackoverflow.com/a/10260692
   var doc = getDocument(node);
-  return doc.defaultView;
+
+  if (needsIEFallback) {
+    // In IE 6-8, only the variable 'window' can be used to connect events (others
+    // may be only copies).
+    doc.parentWindow.execScript('document._parentWindow = window;', 'Javascript');
+    var win = doc._parentWindow;
+    // to prevent memory leak, unset it after use
+    // another possibility is to add an onUnload handler,
+    // (which seems overkill to @liucougar)
+    doc._parentWindow = null;
+    return win;
+  } else {
+    // standards-compliant and newer IE
+    return doc.defaultView || doc.parentWindow;
+  }
 }
