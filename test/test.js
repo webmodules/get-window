@@ -56,7 +56,7 @@ describe('get-window', function () {
     sel.removeAllRanges();
   });
 
-  it('should work with the child node of an <iframe> element', function () {
+  it('should work with the child node of an IFRAME element', function () {
     var iframe = document.createElement('iframe');
     document.body.appendChild(iframe);
 
