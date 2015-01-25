@@ -15,7 +15,7 @@
   ],
   "main": "index.js",
   "dependencies": {
-    "get-document": "0.1.1"
+    "get-document": "1"
   },
   "component": {
     "scripts": {

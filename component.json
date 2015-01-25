@@ -16,6 +16,6 @@
     "index.js"
   ],
   "dependencies": {
-    "webmodules/get-document": "0.1.0"
+    "webmodules/get-document": "1.0.0"
   }
 }
