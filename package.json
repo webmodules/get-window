@@ -22,5 +22,8 @@
   "repository": {
     "type": "git",
     "url": "https://github.com/webmodules/get-window.git"
+  },
+  "devDependencies": {
+    "zuul": "~1.16.5"
   }
 }
