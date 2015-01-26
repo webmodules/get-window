@@ -1,6 +1,7 @@
 
 var assert = require('assert');
 var getWindow = require('../');
+var getDocument = require('get-document');
 
 describe('get-window', function () {
 
@@ -66,23 +67,24 @@ describe('get-window', function () {
     var iframe = document.createElement('iframe');
     document.body.appendChild(iframe);
 
-    iframe.contentDocument.write('<body><b>hello world</b></body>');
+    // `contentWindow` should be used for best browser compatibility
+    var doc = getDocument(iframe.contentWindow);
+    assert.equal(9, doc.nodeType);
 
-    // test iframe contentWindow
-    var win = getWindow(iframe.contentWindow);
-    assert(win === iframe.contentWindow);
+    doc.open();
+    doc.write('<body><b>hello world</b></body>');
+    doc.close();
 
-    // test iframe contentDocument
-    win = getWindow(iframe.contentDocument);
-    assert(win === iframe.contentWindow);
+    var win = getWindow(doc);
+    assert(win);
+    assert(win !== window);
 
-    // test iframe <body>
-    win = getWindow(iframe.contentDocument.body);
-    assert(win === iframe.contentWindow);
+    // test the <body>
+    var body = doc.body;
+    assert(win === getWindow(body));
 
-    // test iframe <body>'s first child
-    win = getWindow(iframe.contentDocument.body.firstChild);
-    assert(win === iframe.contentWindow);
+    // test the <b> node
+    assert(win === getWindow(body.firstChild));
 
     // clean up
     document.body.removeChild(iframe);
