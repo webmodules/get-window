@@ -1,7 +1,7 @@
 {
   "name": "get-window",
   "repo": "webmodules/get-window",
-  "version": "0.0.2",
+  "version": "1.0.0",
   "description": "Returns the `window` object from a DOM object",
   "keywords": [
     "dom",
