@@ -94,7 +94,7 @@ describe('get-window', function () {
     iframeDoc.close();
 
     var result = getWindow(iframeDoc);
-    assert(result );
+    assert(result);
     assert(result !== win);
 
     // test the <body>
