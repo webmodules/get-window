@@ -11,8 +11,7 @@ var getDocument = require('get-document');
 
 module.exports = getWindow;
 
-// old-IE fallback logic: http://stackoverflow.com/a/10260692
-var needsIEFallback = !!document.attachEvent && window !== document.parentWindow;
+var needsIEFallback = require('./needs-ie-fallback');
 
 /**
  * Returns `true` if `w` is a Window object, or `false` otherwise.

@@ -8,17 +8,21 @@ BIN := $(THIS_DIR)/node_modules/.bin
 
 # applications
 NODE ?= node
+MOCHA ?= $(NODE) $(BIN)/mocha
 ZUUL ?= $(NODE) $(BIN)/zuul
 
 test:
-	@if [ "x$(BROWSER_PLATFORM)" = "x" ]; then \
-		$(ZUUL) \
-		--ui mocha-bdd \
-		--browser-name $(BROWSER_NAME) \
-		--browser-version $(BROWSER_VERSION) \
-		test/*.js; \
+	@if [ "x$(BROWSER_NAME)" = "x" ]; then \
+		$(MAKE) test-node; \
 		else \
-	$(ZUUL) \
+		$(MAKE) test-zuul; \
+	fi
+
+test-node:
+	@$(MOCHA) test/*.js
+
+test-zuul:
+	@$(ZUUL) \
 		--ui mocha-bdd \
 		--browser-name $(BROWSER_NAME) \
 		--browser-version $(BROWSER_VERSION) \

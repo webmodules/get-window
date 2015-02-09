@@ -3,95 +3,109 @@ var assert = require('assert');
 var getWindow = require('../');
 var getDocument = require('get-document');
 
+var inBrowser = typeof window !== 'undefined';
+
+// Zuul is configured to pass on to Browserify a configuration to exclude the
+// following module, 'jsdom' because it is only for testing in node. Browsers
+// have real dom
+var jsdom = !inBrowser ? require('jsdom') : null;
+
+var doc = inBrowser ? document : jsdom.jsdom();
+var win = inBrowser ? window : doc.parentWindow;
+
 describe('get-window', function () {
 
   it('should work with the global Window object', function () {
-    var win = getWindow(window);
-    assert(win === window);
+    var result = getWindow(win);
+    assert(result === win);
   });
 
   it('should work with the global Document object', function () {
-    var win = getWindow(document);
-    assert(win === window);
+    var result = getWindow(doc);
+    assert(result === win);
   });
 
   it('should work with the `document.body` object', function () {
-    var win = getWindow(document.body);
-    assert(win === window);
+    var result = getWindow(doc.body);
+    assert(result === win);
   });
 
   it('should work with the a DOM element inside `document.body`', function () {
-    var win = getWindow(document.body.firstChild);
-    assert(win === window);
+    var p = doc.createElement('p')
+    doc.body.appendChild(p);
+    var result = getWindow(doc.body.firstChild);
+    assert(result === win);
+    doc.body.removeChild(p);
   });
 
   it('should work with a new DOM element', function () {
-    var win = getWindow(document.createElement('div'));
-    assert(win === window);
+    var result = getWindow(doc.createElement('div'));
+    assert(result === win);
   });
 
   it('should work with a new TextNode', function () {
-    var win = getWindow(document.createTextNode(''));
-    assert(win === window);
+    var result = getWindow(doc.createTextNode(''));
+    assert(result === win);
   });
 
   // skip on IE <= 8
-  if ('function' === typeof document.createRange) {
+  if ('function' === typeof doc.createRange) {
     it('should work with a DOM Range instance', function () {
-      var win = getWindow(document.createRange());
-      assert(win === window);
+      var result = getWindow(doc.createRange());
+      assert(result === win);
     });
   }
 
   // skip on IE <= 8
-  if ('function' === typeof window.getSelection) {
+  if ('function' === typeof win.getSelection) {
     it('should work with a DOM Selection instance', function () {
       // NOTE: a Selection needs to have some kind of selection on it
       // (i.e. not `type: "None"`) in order for a Document to be found
-      var range = document.createRange();
-      var t = document.createTextNode('t');
-      document.body.appendChild(t);
+      var range = doc.createRange();
+      var t = doc.createTextNode('t');
+      doc.body.appendChild(t);
       range.setStart(t, 0);
       range.setEnd(t, t.nodeValue.length);
 
-      var sel = window.getSelection();
+      var sel = win.getSelection();
       sel.removeAllRanges();
       sel.addRange(range);
       assert.equal(1, sel.rangeCount);
 
-      var win = getWindow(sel);
-      assert(win === window);
+      var result = getWindow(sel);
+      assert(result === win);
 
       // clean up
       sel.removeAllRanges();
+      doc.body.removeChild(t)
     });
   }
 
   it('should work with the child node of an IFRAME element', function () {
-    var iframe = document.createElement('iframe');
-    document.body.appendChild(iframe);
+    var iframe = doc.createElement('iframe');
+    doc.body.appendChild(iframe);
 
     // `contentWindow` should be used for best browser compatibility
-    var doc = getDocument(iframe.contentWindow);
-    assert.equal(9, doc.nodeType);
+    var iframeDoc = getDocument(iframe.contentWindow);
+    assert.equal(9, iframeDoc.nodeType);
 
-    doc.open();
-    doc.write('<body><b>hello world</b></body>');
-    doc.close();
+    iframeDoc.open();
+    iframeDoc.write('<body><b>hello world</b></body>');
+    iframeDoc.close();
 
-    var win = getWindow(doc);
-    assert(win);
-    assert(win !== window);
+    var result = getWindow(iframeDoc);
+    assert(result );
+    assert(result !== win);
 
     // test the <body>
-    var body = doc.body;
-    assert(win === getWindow(body));
+    var body = iframeDoc.body;
+    assert(result === getWindow(body));
 
     // test the <b> node
-    assert(win === getWindow(body.firstChild));
+    assert(result === getWindow(body.firstChild));
 
     // clean up
-    document.body.removeChild(iframe);
+    doc.body.removeChild(iframe);
   });
 
 });
