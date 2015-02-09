@@ -1,4 +1,13 @@
 
+1.1.0 / 2015-02-09
+==================
+
+  * Add Node.js support
+  * test: attempt to fix failing Opera 11 test
+  * travis: use "include" syntax, so that Node.js is tested
+  * travis: add iphone 5.0
+  * travis: test iOS 6.0
+
 1.0.0 / 2015-01-25
 ==================
 
