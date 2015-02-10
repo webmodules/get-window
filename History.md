@@ -1,4 +1,9 @@
 
+1.1.1 / 2015-02-10
+==================
+
+  * package: use relative file path for "needs-ie-fallback"
+
 1.1.0 / 2015-02-09
 ==================
 
