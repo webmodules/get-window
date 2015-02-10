@@ -15,7 +15,7 @@
   ],
   "main": "index.js",
   "browser": {
-    "./needs-ie-fallback.js": "needs-ie-fallback.br.js",
+    "./needs-ie-fallback.js": "./needs-ie-fallback.br.js",
     "jsdom": false
   },
   "dependencies": {
